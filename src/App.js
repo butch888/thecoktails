@@ -8,7 +8,6 @@ function App() {
   const [coktails, setCoktails] = useState([]);
   const [apiLetter, setApiLetter] = useState('a');
   const [inpValue, setInpValue] = useState('');
-  const [search, setSearch] = useState(false);
 
   const URL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${apiLetter}`;
 
@@ -17,9 +16,9 @@ function App() {
       const res = response.data;
       setCoktails(res.drinks);
     })
-  },[apiLetter])
+  }, [URL])
 
-  const cursor = {cursor: 'pointer'};
+  const cursor = { cursor: 'pointer' };
   const letters = document.querySelectorAll('span');
   const handleLetterClick = (e) => {
     setApiLetter(e.target.innerText.toLowerCase());
@@ -28,33 +27,20 @@ function App() {
     letter.addEventListener('click', (e) => handleLetterClick(e))
   }
 
-  function handleSearch() {
-   setSearch(true);
-  }
-
-
   return (
     <div className="App">
       <h1>Coktails</h1>
-      <div>
-        <input value={inpValue} onChange={(e) => setInpValue(e.target.value)}/>
-        <div>
-          <button onClick={handleSearch}>
-            search
-          </button>
-        </div>
-      </div>
       {alphabet.map((elem, index) => (
-        <span key={index + 's'} style={cursor} onClick={(e)=>handleLetterClick(e)}>{elem.toUpperCase() + ' '}</span>
+        <span key={index + 's'} style={cursor} onClick={(e) => handleLetterClick(e)}>{elem.toUpperCase() + ' '}</span>
       ))}
       {coktails.map((coktail, index) => (
         <div key={index}>
           <h4>{coktail.strDrink}</h4>
           <p>{coktail.strCategory}</p>
-          <img src={coktail.strDrinkThumb} style={{maxWidth: '250px'}}></img>
+          <img src={coktail.strDrinkThumb} style={{ maxWidth: '250px' }} alt='coc'></img>
           <p>{coktail.strInstructions}</p>
         </div>
-        ))}
+      ))}
     </div>
   );
 }
